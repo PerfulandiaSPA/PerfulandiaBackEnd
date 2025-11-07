@@ -1,7 +1,4 @@
 package com.perfuland.perfulandia.model;
-
-import javax.management.MXBean;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.*;
@@ -37,18 +34,18 @@ public class Perfume {
 
     @NotBlank(message = "El producto debe tener tamaño")
     private String size;
-    
-    
 
+    
+    @NotBlank(message = "El estado del perfume no puede estar vacio")
+    private Boolean desc_state;
+    
     @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    @JoinColumn(name = "id_category", referencedColumnName = "id_category")
     private Category gender;
 
-      @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    @ManyToOne
+    @JoinColumn(name = "id_category", referencedColumnName = "id_category")
     private Category fragancy;
     
-    @ManyToOne
-    @JoinColumn(name = "id_state", referencedColumnName = "id_state")
-    private StatePerfume state_desc;
+    
 }
