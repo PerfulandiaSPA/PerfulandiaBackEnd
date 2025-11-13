@@ -11,17 +11,17 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 @Entity
-@Table(name = "clients")
+@Table(name = "users")
 @Data
-public class Client {
+public class User {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_client;
+    private Long id_user;
 
     @NotBlank(message = "El nombre es obligatorio")
     @Column(nullable = false)
-    private String client_name;
+    private String user_name;
 
     @NotBlank(message = "La dirección es obligatoria ")
     @Column(nullable = false)
@@ -75,4 +75,8 @@ public class Client {
             throw new RuntimeException("Error al generar el hash de la contraseña", e);
         }
     }
+
+    @ManyToOne
+    @JoinColumn(name = "id_user_type", referencedColumnName = "id_user_type")
+    private User_Type desc_user_type;
 }
