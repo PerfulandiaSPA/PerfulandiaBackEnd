@@ -34,8 +34,8 @@ public class Review{
     private Integer rating;
 
     @ManyToOne
-    @JoinColumn(name = "id_client", nullable = false)
-    private Client client;
+    @JoinColumn(name = "id_user", nullable = false)
+    private User user_name;
 
     @ManyToOne
     @JoinColumn(name = "id_perfume", nullable = false)
