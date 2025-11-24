@@ -10,7 +10,7 @@ import lombok.Data;
 @Entity
 public class Category {
     @NotBlank(message = "El id de la categoria no puede estar vacio")
-    private String id_category;
+    private Long id_category;
 
     @NotBlank(message = "La fragancia no puede estar vacia")
     private String fragancy;

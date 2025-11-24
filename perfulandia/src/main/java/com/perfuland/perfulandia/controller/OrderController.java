@@ -44,7 +44,7 @@ public class OrderController {
     })
     @GetMapping("/{id}")
     public Order getOrdersById(@PathVariable Long id) {
-        return orderService.buscarPorId(id);
+        return orderService.getOrderById(id);
     }
 
     @Operation(summary = "Crear un nuevo pedido")

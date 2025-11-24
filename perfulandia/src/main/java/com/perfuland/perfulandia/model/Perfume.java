@@ -46,4 +46,6 @@ public class Perfume {
     @ManyToOne
     @JoinColumn(name = "id_category", referencedColumnName = "id_category")
     private Category fragancy;
+    
+    
 }
