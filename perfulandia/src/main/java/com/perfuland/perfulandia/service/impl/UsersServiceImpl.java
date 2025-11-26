@@ -7,9 +7,12 @@ import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.perfuland.perfulandia.model.User;
 import com.perfuland.perfulandia.repository.UserRepository;
 
+@Service
 public class UsersServiceImpl {
     private final UserRepository userRepository;
 
@@ -75,6 +78,36 @@ public class UsersServiceImpl {
         userRepository.deleteById(id_user);
     }
 
+    /*
+     * lOGIN Y REGISTER
+     */
+    User loginUser(String user_name, String password) {
+        List<User> users = userRepository.findByUser_name(user_name);
+        if (users.isEmpty()) {
+            throw new RuntimeException("Invalid username or password");
+        }
+        User user = users.get(0);
+        // Verificar la contraseña
+        if (user.verifyPassword(password)) {
+            return user;
+        } else {
+            throw new RuntimeException("Invalid username or password");
+        }
+    }
+
+    User RegisterUser(String user_name, String email, String password) {
+        User newUser = new User();
+        newUser.setUser_name(user_name);
+        newUser.setEmail(email);
+        newUser.setPlainPassword(password); // Método que genera salt y hash
+        return userRepository.save(newUser);
+    }
+
+    User UpdatePasswordDTO(Long id_user, String newPassword) {
+        User existingUser = getUserById(id_user);
+        updatePassword(existingUser, newPassword);
+        return existingUser;
+    }
     // Recordar implementar esto en front-end y controller
 
     /*

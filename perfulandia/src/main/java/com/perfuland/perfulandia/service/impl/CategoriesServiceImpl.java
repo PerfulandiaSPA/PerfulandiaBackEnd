@@ -2,9 +2,12 @@ package com.perfuland.perfulandia.service.impl;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.perfuland.perfulandia.model.Category;
 import com.perfuland.perfulandia.repository.CategoryRepository;
 
+@Service
 public class CategoriesServiceImpl {
     private final CategoryRepository categoryRepository;
 
@@ -20,20 +23,23 @@ public class CategoriesServiceImpl {
     List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
+
     Category getCategoryById(Long id_category) {
         return categoryRepository.findById(id_category).orElse(null);
     }
+
     Category createCategory(Category category) {
         return categoryRepository.save(category);
     }
+
     Category updateCategory(Long id_category, Category category) {
         Category existingCategory = categoryRepository.findById(id_category).orElse(null);
-            existingCategory.setFragancy(category.getFragancy());
-            existingCategory.setGender(category.getGender());
-            return categoryRepository.save(existingCategory);
+        existingCategory.setFragancy(category.getFragancy());
+        existingCategory.setGender(category.getGender());
+        return categoryRepository.save(existingCategory);
     }
-    
-     void deleteCategory(Long id_category) {
+
+    void deleteCategory(Long id_category) {
         categoryRepository.deleteById(id_category);
     }
 }

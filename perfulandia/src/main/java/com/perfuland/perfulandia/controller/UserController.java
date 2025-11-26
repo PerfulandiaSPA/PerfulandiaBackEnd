@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.perfuland.perfulandia.dto.LoginDTO;
+import com.perfuland.perfulandia.dto.UpdatePasswordDTO;
 import com.perfuland.perfulandia.model.User;
+import com.perfuland.perfulandia.service.UsersService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -22,7 +24,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UsersService userService;
 
     // Endpoint para obtener todos los usuarios
     @GetMapping
@@ -67,7 +69,8 @@ public class UserController {
     // Endpoint para iniciar sesión
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
-        boolean success = userService.login(loginDTO);
+        User user = userService.loginUser(loginDTO.getUser_name(), loginDTO.getPassword());
+        boolean success = user != null;
         if (success) {
             return ResponseEntity.ok("Login exitoso");
         } else {
@@ -79,7 +82,7 @@ public class UserController {
     @PutMapping("/{id}/password")
     public ResponseEntity<Void> updatePassword(@PathVariable Long id,
             @RequestBody UpdatePasswordDTO updatePasswordDTO) {
-        userService.updatePassword(id, updatePasswordDTO);
+        userService.updatePassword(id, updatePasswordDTO.getNewPassword());
         return ResponseEntity.noContent().build();
     }
 }
