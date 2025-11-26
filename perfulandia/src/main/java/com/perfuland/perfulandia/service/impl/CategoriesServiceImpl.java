@@ -24,22 +24,22 @@ public class CategoriesServiceImpl {
         return categoryRepository.findAll();
     }
 
-    Category getCategoryById(Long id_category) {
-        return categoryRepository.findById(id_category).orElse(null);
+    Category getCategoryById(Long idCategory) {
+        return categoryRepository.findById(idCategory).orElse(null);
     }
 
     Category createCategory(Category category) {
         return categoryRepository.save(category);
     }
 
-    Category updateCategory(Long id_category, Category category) {
-        Category existingCategory = categoryRepository.findById(id_category).orElse(null);
+    Category updateCategory(Long idCategory, Category category) {
+        Category existingCategory = categoryRepository.findById(idCategory).orElse(null);
         existingCategory.setFragancy(category.getFragancy());
         existingCategory.setGender(category.getGender());
         return categoryRepository.save(existingCategory);
     }
 
-    void deleteCategory(Long id_category) {
-        categoryRepository.deleteById(id_category);
+    void deleteCategory(Long idCategory) {
+        categoryRepository.deleteById(idCategory);
     }
 }

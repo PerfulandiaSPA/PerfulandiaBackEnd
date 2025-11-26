@@ -15,7 +15,7 @@ import lombok.Data;
 public class Perfume {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id_perfume;
+  private Long idPerfume;
 
   @NotBlank(message = "El nombre del producto no puede estar vacio")
   private String product_name;

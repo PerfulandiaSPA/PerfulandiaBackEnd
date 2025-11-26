@@ -19,7 +19,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_user;
+    private Long idUser;
 
     // Sugerencia: Añadir unique = true si es el campo de inicio de sesión.
     @NotBlank(message = "El nombre es obligatorio")

@@ -48,7 +48,7 @@ public class PerfumeController {
     })
     @GetMapping("/{id}")
     public Perfume getPerfumeById(@PathVariable Long id_perfume) {
-        return perfumeService.SearchById(id_perfume);
+        return perfumeService.getPerfumeById(id_perfume);
     }
 
     @Operation(summary = "Crear un nuevo perfume")

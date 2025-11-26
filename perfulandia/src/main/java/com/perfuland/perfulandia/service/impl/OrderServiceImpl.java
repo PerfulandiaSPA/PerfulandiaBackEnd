@@ -25,8 +25,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order getOrderById(Long id) {
-        return orderRepository.findById(id)
+    public Order getOrderById(Long orderId) {
+        return orderRepository.findById(orderId)
                 .orElse(null);
     }
 
@@ -37,8 +37,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order updateOrder(Long id, Order orderDetails) {
-        Optional<Order> orderOptional = orderRepository.findById(id);
+    public Order updateOrder(Long orderId, Order orderDetails) {
+        Optional<Order> orderOptional = orderRepository.findById(orderId);
 
         if (orderOptional.isPresent()) {
             Order existingOrder = orderOptional.get();
@@ -57,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void deleteOrder(Long id) {
-        orderRepository.deleteById(id);
+    public void deleteOrder(Long orderId) {
+        orderRepository.deleteById(orderId);
     }
 }

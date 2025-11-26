@@ -12,7 +12,7 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_category;
+    private Long idCategory;
 
     @NotBlank(message = "La fragancia no puede estar vacia")
     private String fragancy;

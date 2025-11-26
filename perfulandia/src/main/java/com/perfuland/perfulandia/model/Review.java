@@ -17,7 +17,7 @@ import lombok.Data;
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_review;
+    private Long idReview;
 
     @NotBlank(message = "El título no puede estar vacío.")
     @Column(nullable = false)

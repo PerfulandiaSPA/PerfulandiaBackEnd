@@ -24,9 +24,9 @@ public class UsersServiceImpl {
         return userRepository.findAll();
     }
 
-    User getUserById(Long id_user) {
-        return userRepository.findById(id_user)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id_user));
+    User getUserById(Long idUser) {
+        return userRepository.findById(idUser)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + idUser));
     }
 
     User createUser(User user) {
@@ -66,8 +66,8 @@ public class UsersServiceImpl {
         }
     }
 
-    void deleteUser(Long id_user) {
-        userRepository.deleteById(id_user);
+    void deleteUser(Long idUser) {
+        userRepository.deleteById(idUser);
     }
 
     /*
@@ -95,8 +95,8 @@ public class UsersServiceImpl {
         return userRepository.save(newUser);
     }
 
-    User UpdatePasswordDTO(Long id_user, String newPassword) {
-        User existingUser = getUserById(id_user);
+    User UpdatePasswordDTO(Long idUser, String newPassword) {
+        User existingUser = getUserById(idUser);
         updatePassword(existingUser, newPassword);
         return existingUser;
     }

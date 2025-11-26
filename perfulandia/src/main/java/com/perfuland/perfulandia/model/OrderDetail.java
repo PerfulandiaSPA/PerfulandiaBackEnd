@@ -11,7 +11,7 @@ import lombok.Data;
 public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_detail;
+    private Long idDetail;
 
     // El detalle apunta a la Orden (ManyToOne)
     // Usamos 'order' como nombre del campo para el mappedBy en Order.java
