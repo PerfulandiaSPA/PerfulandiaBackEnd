@@ -8,11 +8,11 @@ public interface PerfumeService {
 
     List<Perfume> getAllPerfumes();
 
-    Perfume getPerfumeById(Long id_perfume); // Nuevo nombre estándar
+    Perfume getPerfumeById(Long idPerfume); // Nuevo nombre estándar
 
     Perfume createPerfume(Perfume perfume);
 
-    Perfume updatePerfume(Long id_perfume, Perfume perfume);
+    Perfume updatePerfume(Long idPerfume, Perfume perfume);
 
-    void deletePerfume(Long id_perfume);
+    void deletePerfume(Long idPerfume);
 }

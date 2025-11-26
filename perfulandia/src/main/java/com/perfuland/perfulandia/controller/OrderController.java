@@ -4,11 +4,7 @@ import com.perfuland.perfulandia.service.OrderService;
 import com.perfuland.perfulandia.model.Order;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -27,26 +23,21 @@ public class OrderController {
     }
 
     @Operation(summary = "Obtener todos los pedidos")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Lista de pedidos obtenida exitosamente", content = @Content(array = @ArraySchema(schema = @Schema(implementation = Order.class))))
-    })
+    // ... (otras anotaciones)
     @GetMapping
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
 
     @Operation(summary = "Obtener pedidos por ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Pedidos obtenidos exitosamente"),
-            @ApiResponse(responseCode = "404", description = "Pedido no encontrado")
-    })
-    @GetMapping("/{id}")
-    public Order getOrdersById(@PathVariable Long id) {
-        return orderService.getOrderById(id);
+    // ... (otras anotaciones)
+    @GetMapping("/{idOrder}") // <-- CORREGIDO: usar idOrder
+    public Order getOrderById(@PathVariable Long idOrder) { // <-- CORREGIDO: usar idOrder
+        return orderService.getOrderById(idOrder);
     }
 
     @Operation(summary = "Crear un nuevo pedido")
-    @ApiResponse(responseCode = "201", description = "Pedido creado exitosamente")
+    // ... (otras anotaciones)
     @PostMapping
     public ResponseEntity<Order> createOrder(@Valid @RequestBody Order order) {
         Order createOrder = orderService.createOrder(order);
@@ -54,16 +45,17 @@ public class OrderController {
     }
 
     @Operation(summary = "Actualizar un pedido existente")
-    @PutMapping("/{id}")
-    public Order updateOrder(@PathVariable Long id, @Valid @RequestBody Order order) {
-        return orderService.updateOrder(id, order);
+    @PutMapping("/{idOrder}") // <-- CORREGIDO: usar idOrder
+    public Order updateOrder(@PathVariable Long idOrder, @Valid @RequestBody Order order) { // <-- CORREGIDO: usar
+                                                                                            // idOrder
+        return orderService.updateOrder(idOrder, order);
     }
 
     @Operation(summary = "Eliminar un pedido")
     @ApiResponse(responseCode = "204", description = "Pedido eliminado exitosamente")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
+    @DeleteMapping("/{idOrder}") // <-- CORREGIDO: usar idOrder
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long idOrder) { // <-- CORREGIDO: usar idOrder
+        orderService.deleteOrder(idOrder);
         return ResponseEntity.noContent().build();
     }
 }

@@ -35,10 +35,9 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
-    private User user_name; // Este campo es el que se usa en mappedBy en User.java
+    private User user; // <-- CORREGIDO de user_name
 
     @ManyToOne
     @JoinColumn(name = "id_perfume", nullable = false)
     private Perfume perfume;
-
 }

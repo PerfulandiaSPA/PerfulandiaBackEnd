@@ -2,14 +2,15 @@ package com.perfuland.perfulandia.service.impl;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional; // Si usas @Transactional
+import org.springframework.transaction.annotation.Transactional;
+import java.util.Optional; // Importación necesaria para Optional
 
 import com.perfuland.perfulandia.model.Perfume;
 import com.perfuland.perfulandia.repository.PerfumeRepository;
 import com.perfuland.perfulandia.service.PerfumeService;
 
 @Service
-@Transactional // Si lo deseas
+@Transactional
 public class PerfumesServiceImpl implements PerfumeService {
 
     private final PerfumeRepository perfumeRepository;
@@ -18,7 +19,7 @@ public class PerfumesServiceImpl implements PerfumeService {
         this.perfumeRepository = perfumeRepository;
     }
 
-    // --- MÉTODOS DE LA INTERFAZ ---
+    // --- MÉTODOS DE LA INTERFAZ ---\r\n
 
     @Override
     public List<Perfume> getAllPerfumes() {
@@ -27,10 +28,8 @@ public class PerfumesServiceImpl implements PerfumeService {
 
     @Override
     public Perfume getPerfumeById(Long idPerfume) {
-        List<Perfume> perfumes = perfumeRepository.getPerfumeById(idPerfume);
-
-        // Devolvemos el primero si existe, o null si la lista está vacía.
-        return perfumes.isEmpty() ? null : perfumes.get(0);
+        // CORRECCIÓN: Usa el método estándar findById()
+        return perfumeRepository.findById(idPerfume).orElse(null);
     }
 
     @Override
@@ -40,15 +39,28 @@ public class PerfumesServiceImpl implements PerfumeService {
 
     @Override
     public Perfume updatePerfume(Long idPerfume, Perfume perfume) {
-        // En un update real, primero buscarías, luego actualizarías campos y luego
-        // harías save.
-        // Pero para compilar, esta firma básica es suficiente.
-        return perfumeRepository.save(perfume);
+        // Implementación básica (se recomienda lógica de negocio más compleja)
+        Optional<Perfume> existingPerfume = perfumeRepository.findById(idPerfume);
+        if (existingPerfume.isPresent()) {
+            Perfume p = existingPerfume.get();
+            p.setProductName(perfume.getProductName()); // Usa el nuevo campo
+            p.setBrand(perfume.getBrand());
+            p.setPrice(perfume.getPrice());
+            p.setStock(perfume.getStock());
+            p.setDescPerfume(perfume.getDescPerfume()); // Usa el nuevo campo
+            p.setImage(perfume.getImage());
+            p.setSize(perfume.getSize());
+            p.setIsActive(perfume.getIsActive()); // Usa el nuevo campo
+
+            // Lógica para actualizar categorías si es necesario...
+
+            return perfumeRepository.save(p);
+        }
+        return null;
     }
 
     @Override
     public void deletePerfume(Long idPerfume) {
-        // Para este método, probablemente usarías el método heredado de JpaRepository:
         perfumeRepository.deleteById(idPerfume);
     }
 }

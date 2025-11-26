@@ -10,7 +10,8 @@ public interface CategoryService {
 
     Category createCategory(Category category);
 
-    Category updateCategory(Long idCategory);
+    // <-- CORREGIDO: Faltaba el objeto Category en la firma
+    Category updateCategory(Long idCategory, Category category);
 
     void deleteCategory(Long idCategory);
 }

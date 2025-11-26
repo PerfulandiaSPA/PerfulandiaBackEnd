@@ -20,11 +20,9 @@ public class Category {
     @NotBlank(message = "El genero no puede estar vacio")
     private String gender;
 
-    // CORRECCIÓN 3: Mapeo Inverso para la relación 'gender' en Perfume.java
-    @OneToMany(mappedBy = "gender", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Perfume> perfumesByGender;
+    @OneToMany(mappedBy = "categoryGender", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Perfume> perfumesByGender; // Mapeado correctamente al campo 'categoryGender' en Perfume
 
-    // CORRECCIÓN 4: Mapeo Inverso para la relación 'fragancy' en Perfume.java
-    @OneToMany(mappedBy = "fragancy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Perfume> perfumesByFragancy;
+    @OneToMany(mappedBy = "categoryFragancy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Perfume> perfumesByFragancy; // Mapeado correctamente al campo 'categoryFragancy' en Perfume
 }

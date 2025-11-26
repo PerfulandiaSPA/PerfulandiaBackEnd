@@ -1,9 +1,6 @@
 package com.perfuland.perfulandia.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.*;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,12 +15,11 @@ public class Perfume {
   private Long idPerfume;
 
   @NotBlank(message = "El nombre del producto no puede estar vacio")
-  private String product_name;
+  private String productName; // <-- CORREGIDO de product_name
 
   @NotBlank(message = "Es necesario Incluir marca")
   private String brand;
 
-  // Se usa @NotNull y @Min para Longs.
   @NotNull(message = "Es necesario que el perfume contenga precio")
   @Min(value = 0, message = "El precio no puede ser negativo.")
   private Long price;
@@ -33,7 +29,7 @@ public class Perfume {
   private Integer stock;
 
   @NotBlank(message = "Debe haber una descripcion en perfume.")
-  private String desc_perfume;
+  private String descPerfume; // <-- CORREGIDO de desc_perfume
 
   @NotBlank(message = "El producto debe incluir una imagen")
   private String image;
@@ -41,16 +37,14 @@ public class Perfume {
   @NotBlank(message = "El producto debe tener tamaño")
   private String size;
 
-  // Se usa @NotNull para Boolean, no @NotBlank.
   @NotNull(message = "El estado del perfume no puede estar vacio")
-  private Boolean desc_state;
+  private Boolean isActive; // <-- CORREGIDO de desc_state (más claro)
 
   @ManyToOne
-  @JoinColumn(name = "gender_category_id", referencedColumnName = "id_category")
-  private Category gender;
+  @JoinColumn(referencedColumnName = "idCategory") // Asume que la columna en Perfume se llama "category_id"
+  private Category categoryGender;
 
   @ManyToOne
-  @JoinColumn(name = "fragancy_category_id", referencedColumnName = "id_category")
-  private Category fragancy;
-
+  @JoinColumn(referencedColumnName = "idCategory") // Asume que la columna en Perfume se llama "fragancy_id"
+  private Category categoryFragancy;
 }

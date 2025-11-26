@@ -6,40 +6,44 @@ import org.springframework.stereotype.Service;
 
 import com.perfuland.perfulandia.model.Category;
 import com.perfuland.perfulandia.repository.CategoryRepository;
+import com.perfuland.perfulandia.service.CategoryService; // <-- Importar interfaz
 
 @Service
-public class CategoriesServiceImpl {
+public class CategoriesServiceImpl implements CategoryService { // <-- Implementa la interfaz
     private final CategoryRepository categoryRepository;
 
     public CategoriesServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
-    // List<Category> getAllCategories();
-    // Category getCategoryById(Long id_category);
-    // Category createCategory(Category category);
-    // Category updateCategory(Long id_category, Category category);
-    // void deleteCategory(Long id_category);
 
-    List<Category> getAllCategories() {
+    @Override
+    public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
 
-    Category getCategoryById(Long idCategory) {
+    @Override
+    public Category getCategoryById(Long idCategory) {
         return categoryRepository.findById(idCategory).orElse(null);
     }
 
-    Category createCategory(Category category) {
+    @Override
+    public Category createCategory(Category category) {
         return categoryRepository.save(category);
     }
 
-    Category updateCategory(Long idCategory, Category category) {
-        Category existingCategory = categoryRepository.findById(idCategory).orElse(null);
+    @Override
+    public Category updateCategory(Long idCategory, Category category) { // <-- Corregido firma
+        Category existingCategory = categoryRepository.findById(idCategory)
+                .orElseThrow(() -> new RuntimeException("Category not found with id: " + idCategory));
+
+        // Actualización de campos
         existingCategory.setFragancy(category.getFragancy());
         existingCategory.setGender(category.getGender());
         return categoryRepository.save(existingCategory);
     }
 
-    void deleteCategory(Long idCategory) {
+    @Override
+    public void deleteCategory(Long idCategory) {
         categoryRepository.deleteById(idCategory);
     }
 }
