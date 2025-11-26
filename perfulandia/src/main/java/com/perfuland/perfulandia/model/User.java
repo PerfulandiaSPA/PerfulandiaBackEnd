@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
-// librerias contraseña
+// Librerías de seguridad: Lo ideal es mover la lógica de hash a una clase de servicio o utilidad.
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.List;
+
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
@@ -19,8 +21,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_user;
 
+    // Sugerencia: Añadir unique = true si es el campo de inicio de sesión.
     @NotBlank(message = "El nombre es obligatorio")
-    @Column(nullable = false)
+    @Column(nullable = false) // Si se usa como login, añadir , unique = true
     private String user_name;
 
     @NotBlank(message = "La dirección es obligatoria ")
@@ -50,11 +53,7 @@ public class User {
     }
 
     /**
-     * Verifica si la contraseña en texto plano coincide con el hash almacenado,
-     * osea la contraseña del usuario que lo creo con el hash guardado en la base de
-     * datos
-     * lo que quiere decir que si alguien intenta iniciar sesión con su contraseña
-     * se genera el hash de esa contraseña y se compara con el hash almacenado
+     * Verifica si la contraseña en texto plano coincide con el hash almacenado.
      */
     public boolean verifyPassword(String plainPassword) {
         if (this.passwordSalt == null || this.passwordHash == null)
@@ -64,11 +63,7 @@ public class User {
     }
 
     /*
-     * Generamos un salt aleatorio para la contraseña para que sea más segura y
-     * difícil de atacar el salt aleatorio
-     * quiere decir que cada usuario tendrá un salt diferente aunque tengan la misma
-     * contraseña
-     * EJ: "password123" y el salt seria como "XyZ123AbC456EfG7"
+     * Generamos un salt aleatorio para la contraseña.
      */
     private String generateSalt() {
         byte[] salt = new byte[16];
@@ -77,10 +72,7 @@ public class User {
     }
 
     /*
-     * Generamos el hash de la contraseña usando PBKDF2 con HMAC SHA-256 para
-     * debilear ataques de fuerza bruta y decodificación
-     * al decir decodificacion nos referimos a que si alguien obtiene la base de
-     * datos no pueda obtener las contraseñas en texto plano
+     * Generamos el hash de la contraseña usando PBKDF2 con HMAC SHA-256.
      */
     private String hashPassword(String password, String saltBase64) {
         try {
@@ -94,12 +86,13 @@ public class User {
         }
     }
 
-    // Tipos de usuario: CLIENTE, ADMIN, TRABAJADOR
-    // ADMIN: CREA TRABAJADORES
-    // TRABAJADOR: AGREGA PERFUMES
-    // CLIENTE: COMPRA PERFUMES
+    // Tipos de usuario
     @NotBlank(message = "El tipo de usuario es obligatorio")
     @Column(nullable = false)
     private String user_type;
+
+    // CORRECCIÓN 5: Mapeo Inverso para la relación Review.user_name
+    @OneToMany(mappedBy = "user_name", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Review> reviews;
 
 }

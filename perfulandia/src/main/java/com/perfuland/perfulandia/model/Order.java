@@ -1,34 +1,29 @@
 package com.perfuland.perfulandia.model;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import java.time.LocalDateTime;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-
 @Entity
-@Table(name = "orders")
+@Table(name = "ORDERS")
 @Data
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idOrder;
 
-    @NotBlank(message = "La fecha no puede estar vacía")
+    @NotNull(message = "La fecha no puede estar vacía")
     @Column(nullable = false)
     private LocalDateTime date;
 
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
+    private User client;
 
-    private String clientId;
-
-    private List<Perfume> orderDetail;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderDetail> orderDetails; // Usamos orderDetails en plural
 
     private Long totalPrice;
 }

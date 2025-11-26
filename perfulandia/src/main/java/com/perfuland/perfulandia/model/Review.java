@@ -13,9 +13,9 @@ import lombok.Data;
 
 @Entity
 @Table(name = "reviews")
-@Data 
-public class Review{
-    @Id 
+@Data
+public class Review {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_review;
 
@@ -35,7 +35,7 @@ public class Review{
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
-    private User user_name;
+    private User user_name; // Este campo es el que se usa en mappedBy en User.java
 
     @ManyToOne
     @JoinColumn(name = "id_perfume", nullable = false)
