@@ -8,10 +8,10 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-public class PerfumeServiceImpl {
+public class PerfumesServiceImpl {
     private final PerfumeRepository perfumeRepository;
 
-    public PerfumeServiceImpl(PerfumeRepository perfumeRepository) {
+    public PerfumesServiceImpl(PerfumeRepository perfumeRepository) {
         this.perfumeRepository = perfumeRepository;
     }
 

@@ -14,7 +14,7 @@ import javax.crypto.spec.PBEKeySpec;
 @Table(name = "users")
 @Data
 public class User {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_user;
@@ -50,20 +50,38 @@ public class User {
     }
 
     /**
-     * Verifica si la contraseña en texto plano coincide con el hash almacenado.
+     * Verifica si la contraseña en texto plano coincide con el hash almacenado,
+     * osea la contraseña del usuario que lo creo con el hash guardado en la base de
+     * datos
+     * lo que quiere decir que si alguien intenta iniciar sesión con su contraseña
+     * se genera el hash de esa contraseña y se compara con el hash almacenado
      */
     public boolean verifyPassword(String plainPassword) {
-        if (this.passwordSalt == null || this.passwordHash == null) return false;
+        if (this.passwordSalt == null || this.passwordHash == null)
+            return false;
         String computed = hashPassword(plainPassword, this.passwordSalt);
         return computed.equals(this.passwordHash);
     }
 
+    /*
+     * Generamos un salt aleatorio para la contraseña para que sea más segura y
+     * difícil de atacar el salt aleatorio
+     * quiere decir que cada usuario tendrá un salt diferente aunque tengan la misma
+     * contraseña
+     * EJ: "password123" y el salt seria como "XyZ123AbC456EfG7"
+     */
     private String generateSalt() {
         byte[] salt = new byte[16];
         new SecureRandom().nextBytes(salt);
         return Base64.getEncoder().encodeToString(salt);
     }
 
+    /*
+     * Generamos el hash de la contraseña usando PBKDF2 con HMAC SHA-256 para
+     * debilear ataques de fuerza bruta y decodificación
+     * al decir decodificacion nos referimos a que si alguien obtiene la base de
+     * datos no pueda obtener las contraseñas en texto plano
+     */
     private String hashPassword(String password, String saltBase64) {
         try {
             byte[] salt = Base64.getDecoder().decode(saltBase64);
@@ -76,7 +94,12 @@ public class User {
         }
     }
 
-    @ManyToOne
-    @JoinColumn(name = "id_user_type", referencedColumnName = "id_user_type")
-    private User_Type desc_user_type;
+    // Tipos de usuario: CLIENTE, ADMIN, TRABAJADOR
+    // ADMIN: CREA TRABAJADORES
+    // TRABAJADOR: AGREGA PERFUMES
+    // CLIENTE: COMPRA PERFUMES
+    @NotBlank(message = "El tipo de usuario es obligatorio")
+    @Column(nullable = false)
+    private String user_type;
+
 }

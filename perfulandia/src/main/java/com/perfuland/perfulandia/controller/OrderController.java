@@ -3,7 +3,6 @@ package com.perfuland.perfulandia.controller;
 import com.perfuland.perfulandia.service.OrderService;
 import com.perfuland.perfulandia.model.Order;
 
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,9 +17,9 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/api/v1/orders")
 public class OrderController {
-    
+
     private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
@@ -29,8 +28,7 @@ public class OrderController {
 
     @Operation(summary = "Obtener todos los pedidos")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Lista de pedidos obtenida exitosamente",
-        content = @Content(array = @ArraySchema(schema = @Schema(implementation = Order.class))))
+            @ApiResponse(responseCode = "200", description = "Lista de pedidos obtenida exitosamente", content = @Content(array = @ArraySchema(schema = @Schema(implementation = Order.class))))
     })
     @GetMapping
     public List<Order> getAllOrders() {
@@ -39,8 +37,8 @@ public class OrderController {
 
     @Operation(summary = "Obtener pedidos por ID")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Pedidos obtenidos exitosamente"),
-        @ApiResponse(responseCode = "404", description = "Pedido no encontrado")
+            @ApiResponse(responseCode = "200", description = "Pedidos obtenidos exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Pedido no encontrado")
     })
     @GetMapping("/{id}")
     public Order getOrdersById(@PathVariable Long id) {

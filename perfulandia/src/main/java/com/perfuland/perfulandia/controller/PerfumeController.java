@@ -23,18 +23,18 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/perfumes")
+@RequestMapping("/api/v1/perfumes")
 public class PerfumeController {
- 
+
     private final PerfumeService perfumeService;
 
     public PerfumeController(PerfumeService perfumeService) {
         this.perfumeService = perfumeService;
     }
-@Operation(summary = "Obtener todos los perfumes")
+
+    @Operation(summary = "Obtener todos los perfumes")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Lista de perfumes obtenidos exitosamente",
-        content = @Content(array = @ArraySchema(schema = @Schema(implementation = Perfume.class))))
+            @ApiResponse(responseCode = "200", description = "Lista de perfumes obtenidos exitosamente", content = @Content(array = @ArraySchema(schema = @Schema(implementation = Perfume.class))))
     })
     @GetMapping
     public List<Perfume> getAllPerfumes() {
@@ -43,8 +43,8 @@ public class PerfumeController {
 
     @Operation(summary = "Obtener perfumes por ID")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Perfume obtenido exitosamente"),
-        @ApiResponse(responseCode = "404", description = "Perfume no encontrado")
+            @ApiResponse(responseCode = "200", description = "Perfume obtenido exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Perfume no encontrado")
     })
     @GetMapping("/{id}")
     public Perfume getPerfumeById(@PathVariable Long id_perfume) {
@@ -56,7 +56,7 @@ public class PerfumeController {
     @PostMapping
     public ResponseEntity<Perfume> createPerfume(@Valid @RequestBody Perfume perfume) {
         Perfume createdPerfume = perfumeService.createPerfume(perfume);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdPerfume );
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdPerfume);
     }
 
     @Operation(summary = "Actualizar un perfume existente")
