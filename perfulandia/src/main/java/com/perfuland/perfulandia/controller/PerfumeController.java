@@ -29,7 +29,6 @@ public class PerfumeController {
     }
 
     @Operation(summary = "Obtener todos los perfumes")
-    // ... (otras anotaciones)
     @GetMapping
     public List<Perfume> getAllPerfumes() {
         return perfumeService.getAllPerfumes();
