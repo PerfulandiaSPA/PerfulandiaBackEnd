@@ -1,10 +1,14 @@
 package com.perfuland.perfulandia.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginDTO {
-    private String userName; // <-- CORREGIDO de user_name
+    private String userName;
     private String password;
 
 }

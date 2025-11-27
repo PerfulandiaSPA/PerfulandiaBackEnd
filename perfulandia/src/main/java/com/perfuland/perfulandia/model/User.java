@@ -5,13 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.security.SecureRandom;
-import java.util.Base64;
 import java.util.List;
-
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 
 @Entity
 @Table(name = "users")
@@ -33,19 +27,15 @@ public class User {
     private String address;
 
     @NotBlank(message = "El correo electrónico es obligatorio")
-    @Email(message = "El correo electrónico no es válido")
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String passwordHash;
+    @Column(length = 100, nullable = false)
+    private String password;
 
-    @Column(nullable = false)
-    private String passwordSalt;
-
-    @NotBlank(message = "El tipo de usuario es obligatorio")
-    @Column(nullable = false)
-    private String userType; // <-- CORREGIDO de user_type
+    @NotBlank(message = "El rol es obligatorio")
+    @Column(length = 50, nullable = false)
+    private String role;
 
     // Relaciones
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -54,39 +44,4 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // Mapeado a 'user' en Review.java
     private List<Review> reviews;
 
-    // --- Lógica de Seguridad (Se mantienen, aunque idealmente irían en un
-    // servicio) ---
-
-    public void setPlainPassword(String plainPassword) {
-        if (plainPassword == null || plainPassword.isEmpty()) {
-            throw new IllegalArgumentException("La contraseña no puede estar vacía.");
-        }
-        this.passwordSalt = generateSalt();
-        this.passwordHash = hashPassword(plainPassword, this.passwordSalt);
-    }
-
-    public boolean checkPassword(String plainPassword) {
-        if (plainPassword == null || this.passwordHash == null)
-            return false;
-        String computed = hashPassword(plainPassword, this.passwordSalt);
-        return computed.equals(this.passwordHash);
-    }
-
-    private String generateSalt() {
-        byte[] salt = new byte[16];
-        new SecureRandom().nextBytes(salt);
-        return Base64.getEncoder().encodeToString(salt);
-    }
-
-    private String hashPassword(String password, String saltBase64) {
-        try {
-            byte[] salt = Base64.getDecoder().decode(saltBase64);
-            PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
-            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            byte[] hash = skf.generateSecret(spec).getEncoded();
-            return Base64.getEncoder().encodeToString(hash);
-        } catch (Exception e) {
-            throw new RuntimeException("Error al generar el hash de la contraseña", e);
-        }
-    }
 }
