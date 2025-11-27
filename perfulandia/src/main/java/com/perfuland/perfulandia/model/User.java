@@ -2,7 +2,9 @@ package com.perfuland.perfulandia.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.security.SecureRandom;
 import java.util.Base64;
@@ -14,6 +16,8 @@ import javax.crypto.spec.PBEKeySpec;
 @Entity
 @Table(name = "users")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
