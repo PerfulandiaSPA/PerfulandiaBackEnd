@@ -14,17 +14,17 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/perfumes/**")
-                        .hasAnyAuthority("ROLE_WORKER")
-                        .requestMatchers("/api/v1/categories/**")
-                        .hasAnyAuthority("ROLE_WORKER")
-                        .requestMatchers("/api/v1//**")
-                        .hasAnyAuthority("ROLE_WORKER") // Permitir acceso a
+                        .requestMatchers("/api/estado-prendas/**")
+                        .hasAnyAuthority("ROLE_TEST")
+                        .requestMatchers("/api/prendas/**")
+                        .hasAnyAuthority("ROLE_TEST")
+                        .requestMatchers("/api/tipo-prendas/**")
+                        .hasAnyAuthority("ROLE_TEST") // Permitir acceso a
                                                       // usuarios con rol
-                                                      // Worker
+                                                      // Tester
                         .requestMatchers("/api/auth/login").permitAll() // Permitir acceso libre
                                                                         // al endpoint de login
-                        .requestMatchers("/api/users/**")
+                        .requestMatchers("/api/usuarios/**")
                         .hasAnyAuthority("ROLE_ADMIN")
                         // Permisos para el SWAGGER UI
                         .requestMatchers("/doc/swagger-ui/**",
@@ -42,6 +42,6 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
-    }
-
+        }
+                
 }
