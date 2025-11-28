@@ -1,32 +1,47 @@
 package com.perfuland.perfulandia.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.perfuland.perfulandia.dto.LoginDTO;
-import com.perfuland.perfulandia.service.AuthService;
+import com.perfuland.perfulandia.dto.LoginDTOResponse;
+import com.perfuland.perfulandia.security.JwtService;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.*;
+import org.springframework.security.core.userdetails.*;
+import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Auth Controller", description = "Controlador para autenticación y autorización de usuarios")
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
+@RequiredArgsConstructor
+@Tag(name = "Autenticación", description = "Endpoints para autenticación con JWT")
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthenticationManager authenticationManager;
+    private final UserDetailsService userDetailsService;
+    private final JwtService jwtService;
 
-    @Operation(summary = "Iniciar sesión", description = "Permite a un usuario iniciar sesión y obtener un token de acceso.")
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
-        String token = authService.login(
-                loginDTO.getUserName(),
-                loginDTO.getPassword());
-        return ResponseEntity.ok(token);
+    public ResponseEntity<LoginDTOResponse> login(@RequestBody LoginDTO request) {
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                request.getUserName(),
+                request.getPassword()
+        );
+        authenticationManager.authenticate(authentication);
+
+        UserDetails userDetails =
+                userDetailsService.loadUserByUsername(request.getUserName());
+
+        String token = jwtService.generateToken(userDetails);
+
+        return ResponseEntity.ok(new LoginDTOResponse(token));
     }
 }
