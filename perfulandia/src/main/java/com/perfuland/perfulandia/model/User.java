@@ -6,10 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.List;
+import lombok.Builder;
 
 @Entity
-@Table(name = "users")
+@Table(name = "USERS") // Evitar conflicto con palabra reservada 'USER'
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -33,9 +35,9 @@ public class User {
     @Column(length = 100, nullable = false)
     private String password;
 
-    @NotBlank(message = "El rol es obligatorio")
-    @Column(length = 50, nullable = false)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     // Relaciones
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
