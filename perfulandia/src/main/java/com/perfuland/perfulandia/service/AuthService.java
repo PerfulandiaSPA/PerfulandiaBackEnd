@@ -1,32 +1,43 @@
 package com.perfuland.perfulandia.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.perfuland.perfulandia.configuration.JwtUtil;
 import com.perfuland.perfulandia.model.User;
 import com.perfuland.perfulandia.repository.UserRepository;
+import com.perfuland.perfulandia.security.JwtService; // Importar el servicio correcto (como en biblioteca)
+// import com.perfuland.perfulandia.configuration.JwtUtil; // <--- BORRAR O COMENTAR ESTO
+
+import java.util.ArrayList;
 
 @Service
 public class AuthService {
 
     @Autowired
-    private UserRepository UserRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtService jwtService; // Usamos JwtService en lugar de JwtUtil
 
     public String login(String userName, String password) {
-        // buscando un usuario por su nombre de usuario
-        User user = UserRepository.findByUserName(userName)
+        // 1. Buscar usuario
+        User user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        // verificando si la contraseña proporcionada coincide con la almacenada
+        // 2. Verificar password (en perfulandia es texto plano, en biblioteca es BCrypt)
         if (!user.getPassword().equals(password)) {
             throw new RuntimeException("Contraseña incorrecta");
         }
 
-        // generando un token JWT para el usuario autenticado
-        return jwtUtil.generateToken(user.getUserName(), user.getRole());
+        // 3. Generar Token usando JwtService
+        // IMPORTANTE: JwtService espera un UserDetails, debemos adaptarlo
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(
+                user.getUserName(),
+                user.getPassword(),
+                new ArrayList<>() // O convertir user.getRole() a GrantedAuthority
+        );
+
+        return jwtService.generateToken(userDetails);
     }
 }

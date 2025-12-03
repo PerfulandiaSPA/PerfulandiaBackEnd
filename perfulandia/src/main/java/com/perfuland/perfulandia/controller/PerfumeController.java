@@ -14,7 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.perfuland.perfulandia.model.Perfume;
 import com.perfuland.perfulandia.service.PerfumeService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+// --- ELIMINA ESTA LÍNEA ---
+// import io.swagger.v3.oas.annotations.parameters.RequestBody; 
+
+// --- AGREGA ESTA LÍNEA ---
+import org.springframework.web.bind.annotation.RequestBody;
+
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 

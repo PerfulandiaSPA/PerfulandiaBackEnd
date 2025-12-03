@@ -10,7 +10,11 @@ import com.perfuland.perfulandia.dto.LoginDTO;
 import com.perfuland.perfulandia.service.AuthService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+// --- ELIMINA ESTA LÍNEA ---
+// import io.swagger.v3.oas.annotations.parameters.RequestBody; 
+
+// --- AGREGA ESTA LÍNEA ---
+import org.springframework.web.bind.annotation.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Auth Controller", description = "Controlador para autenticación y autorización de usuarios")

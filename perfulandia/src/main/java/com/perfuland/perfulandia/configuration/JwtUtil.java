@@ -1,4 +1,4 @@
-package com.perfuland.perfulandia.configuration;
+/*package com.perfuland.perfulandia.configuration;
 
 import java.security.Key;
 import java.util.Date;
@@ -42,3 +42,4 @@ public class JwtUtil {
         }
     }
 }
+    */
