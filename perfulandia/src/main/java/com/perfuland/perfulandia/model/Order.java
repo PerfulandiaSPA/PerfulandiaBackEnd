@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "ORDERS")
@@ -27,8 +26,6 @@ public class Order {
     @JoinColumn(name = "client_id", nullable = false)
     private User client;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderDetail> orderDetails; // Usamos orderDetails en plural
-
+    @Column(nullable = false)
     private Long totalPrice;
 }
