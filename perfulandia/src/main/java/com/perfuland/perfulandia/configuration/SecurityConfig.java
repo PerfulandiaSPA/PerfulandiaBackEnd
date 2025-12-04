@@ -48,7 +48,7 @@ public class SecurityConfig {
         public CorsConfigurationSource corsConfigurationSource() {
                 CorsConfiguration configuration = new CorsConfiguration();
                 // 🔑 Origen de tu frontend React
-                configuration.setAllowedOrigins(List.of("http://localhost:3007"));
+                configuration.setAllowedOrigins(List.of("http://localhost:3000"));
                 // Métodos necesarios para las operaciones (GET, POST, PUT, DELETE)
                 configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 // Permite cualquier encabezado, incluyendo el Authorization para el token JWT
