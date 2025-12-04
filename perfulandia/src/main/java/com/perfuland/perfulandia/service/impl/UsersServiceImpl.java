@@ -11,7 +11,7 @@ import com.perfuland.perfulandia.service.UserService;
 
 @Service
 public class UsersServiceImpl implements UserService {
-    
+
     private final UserRepository userRepository;
 
     public UsersServiceImpl(UserRepository userRepository) {
