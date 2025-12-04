@@ -2,20 +2,31 @@ package com.perfuland.perfulandia.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 // IMPORTACIONES DE CORS
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import com.perfuland.perfulandia.security.JwtAuthenticationFilter;
 import java.util.Arrays;
 import java.util.List;
 // FIN DE IMPORTACIONES DE CORS
 
 @Configuration
 public class SecurityConfig {
+        
+        private final JwtAuthenticationFilter jwtAuthenticationFilter;
+        
+        public SecurityConfig(@Lazy JwtAuthenticationFilter jwtAuthenticationFilter) {
+                this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        }
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -27,8 +38,10 @@ public class SecurityConfig {
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers(HttpMethod.GET, "/api/v1/perfumes/**").permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/api/v1/users/**").permitAll()
-                                                .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-
+                                                .requestMatchers("/api/auth/login").permitAll()
+                                                .requestMatchers(HttpMethod.POST, "/api/v1/perfumes/**").hasRole("ADMIN")
+                                                .requestMatchers(HttpMethod.PUT, "/api/v1/perfumes/**").hasRole("ADMIN")
+                                                .requestMatchers(HttpMethod.DELETE, "/api/v1/perfumes/**").hasRole("ADMIN")
                                                 // Permisos para el SWAGGER UI
                                                 .requestMatchers("/v3/api-docs/**",
                                                                 "/swagger-ui.html",
@@ -37,9 +50,7 @@ public class SecurityConfig {
 
                                                 .anyRequest().authenticated())
                                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                                // 💡 NOTA: Aquí deberías añadir tu filtro JWT:
-                                // .addFilterBefore(jwtAuthenticationFilter,
-                                // UsernamePasswordAuthenticationFilter.class)
+                                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                                 .build();
         }
 
@@ -61,8 +72,9 @@ public class SecurityConfig {
                 return source;
         }
 
-        // 💡 NOTA: Recuerda que necesitas el resto de tus Beans (PasswordEncoder,
-        // AuthenticationManager, etc.)
-        // y la inyección del JwtAuthenticationFilter para que la seguridad funcione
-        // completamente.
+        // 3. BEAN PARA PASSWORD ENCODER
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 }
