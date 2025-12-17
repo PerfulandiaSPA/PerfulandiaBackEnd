@@ -118,7 +118,7 @@ public class DataInitConfig {
                 Perfume p5 = new Perfume();
                 p5.setProductName("ACQUA DI GIOIA");
                 p5.setBrand("GIORGIO ARMANI");
-                p5.setPrice(85000L);
+                p5.setPrice(54990L);
                 p5.setStock(10);
                 p5.setDescPerfume("Acuático-cítrico fresco con menta y limón; limpio y revitalizante.");
                 p5.setImage("https://fimgs.net/mdimg/perfume-thumbs/375x500.8442.avif");
@@ -129,7 +129,7 @@ public class DataInitConfig {
                 Perfume p6 = new Perfume();
                 p6.setProductName("BRIGHT CRYSTAL");
                 p6.setBrand("VERSACE");
-                p6.setPrice(98000L);
+                p6.setPrice(49990L);
                 p6.setStock(40);
                 p6.setDescPerfume("Floral-frutal cristalino con granada y peonía; femenino y brillante.");
                 p6.setImage("https://fimgs.net/mdimg/perfume/o.632.jpg");
@@ -151,7 +151,7 @@ public class DataInitConfig {
                 Perfume p8 = new Perfume();
                 p8.setProductName("LE MALE");
                 p8.setBrand("JEAN PAUL GAULTIER");
-                p8.setPrice(88000L);
+                p8.setPrice(45990L);
                 p8.setStock(10);
                 p8.setDescPerfume("Aromático dulce con menta, lavanda y vainilla; icónico y sensual.");
                 p8.setImage("https://fimgs.net/mdimg/perfume-thumbs/375x500.430.jpg");
