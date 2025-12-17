@@ -1,17 +1,12 @@
 package com.perfuland.perfulandia.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+// 1. IMPORTANTE: Agrega este import para que funcionen las anotaciones JSON
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "reviews")
@@ -19,15 +14,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Review {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idReview;
 
-    @NotBlank(message = "El título no puede estar vacío.")
-    @Column(nullable = false)
     private String title;
 
-    @NotBlank(message = "Este campo no puede estar vacío.")
+    @NotBlank(message = "El comentario no puede estar vacío.")
     @Column(nullable = false)
     private String content;
 
@@ -37,11 +31,18 @@ public class Review {
     @Column(nullable = false)
     private Integer rating;
 
+    // --- CORRECCIÓN AQUÍ ---
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
-    private User user; // <-- CORREGIDO de user_name
+    // Esto evita que al traer el user, traiga sus reviews y password de vuelta
+    @JsonIgnoreProperties({ "reviews", "password", "hibernateLazyInitializer", "handler" })
+    private User user;
 
+    // --- CORRECCIÓN AQUÍ ---
     @ManyToOne
     @JoinColumn(name = "id_perfume", nullable = false)
+    // Esto es CRUCIAL: "Trae el perfume, pero NO traigas la lista de reviews que
+    // tiene dentro"
+    @JsonIgnoreProperties({ "reviews", "hibernateLazyInitializer", "handler" })
     private Perfume perfume;
 }

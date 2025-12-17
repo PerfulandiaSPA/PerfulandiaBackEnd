@@ -78,7 +78,7 @@ public class DataInitConfig {
                 p1.setPrice(12351L);
                 p1.setStock(50);
                 p1.setDescPerfume("Dulce y café");
-                p1.setImage("black_opium.jpg");
+                p1.setImage("https://fimgs.net/mdimg/perfume-thumbs/375x500.25324.avif");
                 p1.setSize("90ml");
                 p1.setIsActive(true);
                 p1.setCategoryGender(catMujer); // Usamos la variable catMujer de arriba
@@ -90,7 +90,7 @@ public class DataInitConfig {
                 p2.setPrice(98000L);
                 p2.setStock(20);
                 p2.setDescPerfume("Floral y audaz");
-                p2.setImage("good_girl.jpg");
+                p2.setImage("https://fimgs.net/mdimg/perfume-thumbs/375x500.290.avif");
                 p2.setSize("80ml");
                 p2.setIsActive(true);
                 p2.setCategoryGender(catMujer); // También Mujer
@@ -102,7 +102,7 @@ public class DataInitConfig {
                 p3.setPrice(110000L);
                 p3.setStock(30);
                 p3.setDescPerfume("Fresco y picante");
-                p3.setImage("sauvage.jpg");
+                p3.setImage("https://fimgs.net/mdimg/perfume-thumbs/375x500.31861.avif");
                 p3.setSize("100ml");
                 p3.setIsActive(true);
                 p3.setCategoryGender(catHombre); // Usamos catHombre

@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+// 1. NUEVO IMPORT NECESARIO
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "PERFUMES")
@@ -19,7 +21,7 @@ public class Perfume {
   private Long idPerfume;
 
   @NotBlank(message = "El nombre del producto no puede estar vacio")
-  private String productName; // <-- CORREGIDO de product_name
+  private String productName;
 
   @NotBlank(message = "Es necesario Incluir marca")
   private String brand;
@@ -33,7 +35,7 @@ public class Perfume {
   private Integer stock;
 
   @NotBlank(message = "Debe haber una descripcion en perfume.")
-  private String descPerfume; // <-- CORREGIDO de desc_perfume
+  private String descPerfume;
 
   @NotBlank(message = "El producto debe incluir una imagen")
   private String image;
@@ -42,10 +44,12 @@ public class Perfume {
   private String size;
 
   @NotNull(message = "El estado del perfume no puede estar vacio")
-  private Boolean isActive; // <-- CORREGIDO de desc_state (más claro)
+  private Boolean isActive;
 
   @ManyToOne
-  @JoinColumn(referencedColumnName = "idCategory") // Asume que la columna en Perfume se llama "category_id"
+  @JoinColumn(referencedColumnName = "idCategory")
+
+  @JsonIgnoreProperties("perfumesByGender")
   private Category categoryGender;
 
 }
