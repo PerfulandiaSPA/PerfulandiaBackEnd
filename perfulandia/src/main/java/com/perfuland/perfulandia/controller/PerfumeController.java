@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.perfuland.perfulandia.model.Perfume;
 import com.perfuland.perfulandia.service.PerfumeService;
 import com.perfuland.perfulandia.dto.PerfumeDTO;
+import com.perfuland.perfulandia.dto.PerfumeCreateDTO;
+import com.perfuland.perfulandia.dto.CategoryDTO;
+import com.perfuland.perfulandia.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,9 +28,11 @@ import jakarta.validation.Valid;
 public class PerfumeController {
 
     private final PerfumeService perfumeService;
+    private final CategoryService categoryService;
 
-    public PerfumeController(PerfumeService perfumeService) {
+    public PerfumeController(PerfumeService perfumeService, CategoryService categoryService) {
         this.perfumeService = perfumeService;
+        this.categoryService = categoryService;
     }
 
     // Método auxiliar para mapear Perfume a PerfumeDTO
@@ -46,7 +51,7 @@ public class PerfumeController {
         dto.setIsActive(perfume.getIsActive());
         
         if (perfume.getCategoryGender() != null) {
-            PerfumeDTO.CategoryDTO catDTO = new PerfumeDTO.CategoryDTO();
+            CategoryDTO catDTO = new CategoryDTO();
             catDTO.setIdCategory(perfume.getCategoryGender().getIdCategory());
             catDTO.setGender(perfume.getCategoryGender().getGender());
             dto.setCategoryGender(catDTO);
@@ -76,7 +81,25 @@ public class PerfumeController {
     @Operation(summary = "Crear un nuevo perfume")
     @ApiResponse(responseCode = "201", description = "Perfume creado exitosamente")
     @PostMapping
-    public ResponseEntity<PerfumeDTO> createPerfume(@Valid @RequestBody Perfume perfume) {
+    public ResponseEntity<PerfumeDTO> createPerfume(@Valid @RequestBody PerfumeCreateDTO perfumeCreateDTO) {
+        // Convertir DTO a entidad
+        Perfume perfume = new Perfume();
+        perfume.setProductName(perfumeCreateDTO.getProductName());
+        perfume.setBrand(perfumeCreateDTO.getBrand());
+        perfume.setPrice(perfumeCreateDTO.getPrice());
+        perfume.setStock(perfumeCreateDTO.getStock());
+        perfume.setDescPerfume(perfumeCreateDTO.getDescPerfume());
+        perfume.setImage(perfumeCreateDTO.getImage());
+        perfume.setSize(perfumeCreateDTO.getSize());
+        perfume.setIsActive(perfumeCreateDTO.getIsActive());
+        
+        // Obtener y asignar la categoría por ID
+        if (perfumeCreateDTO.getCategoryGenderId() != null) {
+            com.perfuland.perfulandia.model.Category category = 
+                categoryService.getCategoryById(perfumeCreateDTO.getCategoryGenderId());
+            perfume.setCategoryGender(category);
+        }
+        
         Perfume createdPerfume = perfumeService.createPerfume(perfume);
         return ResponseEntity.status(HttpStatus.CREATED).body(mapToPerfumeDTO(createdPerfume));
     }

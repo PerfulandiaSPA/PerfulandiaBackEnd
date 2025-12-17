@@ -18,12 +18,4 @@ public class PerfumeDTO {
     private String size;
     private Boolean isActive;
     private CategoryDTO categoryGender;
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class CategoryDTO {
-        private Long idCategory;
-        private String gender;
-    }
 }
