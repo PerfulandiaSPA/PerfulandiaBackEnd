@@ -19,15 +19,10 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCategory;
 
-    @NotBlank(message = "La fragancia no puede estar vacia")
-    private String fragancy;
-
     @NotBlank(message = "El genero no puede estar vacio")
     private String gender;
 
     @OneToMany(mappedBy = "categoryGender", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Perfume> perfumesByGender; // Mapeado correctamente al campo 'categoryGender' en Perfume
 
-    @OneToMany(mappedBy = "categoryFragancy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Perfume> perfumesByFragancy; // Mapeado correctamente al campo 'categoryFragancy' en Perfume
 }

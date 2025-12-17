@@ -48,7 +48,4 @@ public class Perfume {
   @JoinColumn(referencedColumnName = "idCategory") // Asume que la columna en Perfume se llama "category_id"
   private Category categoryGender;
 
-  @ManyToOne
-  @JoinColumn(referencedColumnName = "idCategory") // Asume que la columna en Perfume se llama "fragancy_id"
-  private Category categoryFragancy;
 }

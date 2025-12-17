@@ -37,7 +37,6 @@ public class CategoriesServiceImpl implements CategoryService { // <-- Implement
                 .orElseThrow(() -> new RuntimeException("Category not found with id: " + idCategory));
 
         // Actualización de campos
-        existingCategory.setFragancy(category.getFragancy());
         existingCategory.setGender(category.getGender());
         return categoryRepository.save(existingCategory);
     }
