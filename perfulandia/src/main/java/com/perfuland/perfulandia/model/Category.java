@@ -19,7 +19,6 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCategory;
 
-    @NotBlank(message = "La fragancia no puede estar vacia")
     private String fragancy;
 
     @NotBlank(message = "El genero no puede estar vacio")

@@ -1,7 +1,9 @@
 package com.perfuland.perfulandia.configuration;
 
 import com.perfuland.perfulandia.model.User;
+import com.perfuland.perfulandia.model.Category;
 import com.perfuland.perfulandia.repository.UserRepository;
+import com.perfuland.perfulandia.repository.CategoryRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +13,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class DataInitConfig {
 
     @Bean
-    CommandLineRunner initDatabase(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    CommandLineRunner initDatabase(UserRepository userRepository, CategoryRepository categoryRepository, PasswordEncoder passwordEncoder) {
         return args -> {
+            // Crear categorías si no existen
+            if (categoryRepository.count() == 0) {
+                // Categorías de género
+                Category hombre = new Category();
+                hombre.setGender("Hombre");
+                categoryRepository.save(hombre);
+                System.out.println(">>> Categoría HOMBRE creada");
+
+                Category mujer = new Category();
+                mujer.setGender("Mujer");
+                categoryRepository.save(mujer);
+                System.out.println(">>> Categoría MUJER creada");
+
+                Category unisex = new Category();
+                unisex.setGender("Unisex");
+                categoryRepository.save(unisex);
+                System.out.println(">>> Categoría UNISEX creada");
+            }
+
             // Si no hay usuarios, creamos admin y user
             if (userRepository.count() == 0) {
                 // Crear usuario ADMIN
