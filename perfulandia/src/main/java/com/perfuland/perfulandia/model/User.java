@@ -22,7 +22,6 @@ public class User {
     @Column(nullable = false, unique = true) // Agregada restricción de unicidad para el login
     private String userName; // <-- CORREGIDO de user_name
 
-    @NotBlank(message = "La dirección es obligatoria ")
     @Column(nullable = false)
     private String address;
 
@@ -33,8 +32,7 @@ public class User {
     @Column(length = 100, nullable = false)
     private String password;
 
-    @NotBlank(message = "El rol es obligatorio")
-    @Column(length = 50, nullable = false)
+    @Column(length = 50)
     private String role;
 
     // Relaciones

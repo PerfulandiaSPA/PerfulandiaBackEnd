@@ -46,6 +46,7 @@ public class SecurityConfig {
 
                                                 // --- AUTENTICACIÓN ---
                                                 .requestMatchers("/api/auth/login").permitAll()
+                                                .requestMatchers("/api/auth/register").permitAll()
 
                                                 // --- LOGICA DE GUEST / INVITADOS (REVIEWS) ---
                                                 // Permitimos VER (GET) reviews a todos
@@ -57,7 +58,7 @@ public class SecurityConfig {
                                                 .requestMatchers(HttpMethod.PUT, "/api/v1/perfumes/**").hasRole("ADMIN")
                                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/perfumes/**")
                                                 .hasRole("ADMIN")
-                                                .requestMatchers(HttpMethod.POST, "/api/v1/reviews/").hasRole("USER")
+                                                .requestMatchers(HttpMethod.POST, "/api/v1/reviews/").hasRole("CLIENT")
                                                 .requestMatchers(HttpMethod.POST, "/api/v1/categories/**")
                                                 .hasRole("ADMIN")
                                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/categories/**")

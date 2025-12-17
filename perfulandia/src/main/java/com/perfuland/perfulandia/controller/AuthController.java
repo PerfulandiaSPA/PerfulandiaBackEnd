@@ -1,12 +1,14 @@
 package com.perfuland.perfulandia.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.perfuland.perfulandia.dto.LoginDTO;
+import com.perfuland.perfulandia.dto.RegisterDTO;
 import com.perfuland.perfulandia.service.AuthService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,5 +34,18 @@ public class AuthController {
                 loginDTO.getUserName(),
                 loginDTO.getPassword());
         return ResponseEntity.ok(token);
+    }
+
+    @Operation(summary = "Registrar usuario", description = "Permite registrar un nuevo usuario en el sistema.")
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegisterDTO request) {
+        try {
+            // ... lógica ...
+            authService.register(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Usuario registrado con éxito");
+        } catch (RuntimeException e) {
+            // Aquí es donde Spring devuelve el 400 si el usuario ya existe
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
