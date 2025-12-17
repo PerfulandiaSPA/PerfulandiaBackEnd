@@ -37,11 +37,14 @@ public class SecurityConfig {
                                 .csrf(csrf -> csrf.disable())
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers(HttpMethod.GET, "/api/v1/perfumes/**").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/api/v1/categories/**").permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/api/v1/users/**").permitAll()
                                                 .requestMatchers("/api/auth/login").permitAll()
                                                 .requestMatchers(HttpMethod.POST, "/api/v1/perfumes/**").hasRole("ADMIN")
                                                 .requestMatchers(HttpMethod.PUT, "/api/v1/perfumes/**").hasRole("ADMIN")
                                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/perfumes/**").hasRole("ADMIN")
+                                                .requestMatchers(HttpMethod.POST, "/api/v1/categories/**").hasRole("ADMIN")
+                                                .requestMatchers(HttpMethod.DELETE, "/api/v1/categories/**").hasRole("ADMIN")
                                                 // Permisos para el SWAGGER UI
                                                 .requestMatchers("/v3/api-docs/**",
                                                                 "/swagger-ui.html",
