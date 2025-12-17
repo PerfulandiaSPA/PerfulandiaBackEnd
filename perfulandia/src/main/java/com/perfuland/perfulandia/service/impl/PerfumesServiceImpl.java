@@ -51,8 +51,11 @@ public class PerfumesServiceImpl implements PerfumeService {
             p.setImage(perfume.getImage());
             p.setSize(perfume.getSize());
             p.setIsActive(perfume.getIsActive()); // Usa el nuevo campo
-
-            // Lógica para actualizar categorías si es necesario...
+            
+            // Actualizar categoría si viene en la solicitud
+            if (perfume.getCategoryGender() != null) {
+                p.setCategoryGender(perfume.getCategoryGender());
+            }
 
             return perfumeRepository.save(p);
         }
